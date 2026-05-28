@@ -159,7 +159,7 @@ func (t *Thermostat) DecodeInfoEvent(payload []byte) (*InfoEvent, error) {
 	}
 	ie := &InfoEvent{
 		SetTemperature:    float64((uint64(payload[1])>>2)&hm.Mask6Bit) / 2,
-		ActualTemperature: float64((int64(payload[1])&hm.Mask2Bit)|int64(payload[2])) / 10,
+		ActualTemperature: float64(((int64(payload[1])&hm.Mask2Bit)<<8)|int64(payload[2])) / 10,
 		Fault:             FaultReporting((payload[3] >> 5) & hm.Mask3Bit),
 		BatteryState:      float64(payload[3]&hm.Mask5Bit)/10 + 1.5,
 		ValveState:        uint64(payload[4] & hm.Mask7Bit),

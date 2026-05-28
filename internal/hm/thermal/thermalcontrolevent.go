@@ -69,7 +69,7 @@ func (tc *ThermalControl) DecodeThermalControlEvent(payload []byte) (*ThermalCon
 	}
 	tce := &ThermalControlEvent{
 		SetTemperature:    float64((uint64(payload[0])>>2)&hm.Mask6Bit) / 2,
-		ActualTemperature: float64((int64(payload[0])&hm.Mask2Bit)|int64(payload[1])) / 10,
+		ActualTemperature: float64(((int64(payload[0])&hm.Mask2Bit)<<8)|int64(payload[1])) / 10,
 		ActualHumidity:    float64(payload[2]),
 	}
 

@@ -149,7 +149,7 @@ func (tc *ThermalControl) DecodeInfoEvent(payload []byte) (*InfoEvent, error) {
 	}
 	ie := &InfoEvent{
 		SetTemperature:         float64((uint64(payload[1])>>2)&hm.Mask6Bit) / 2,
-		ActualTemperature:      float64((int64(payload[1])&hm.Mask2Bit)|int64(payload[2])) / 10,
+		ActualTemperature:      float64(((int64(payload[1])&hm.Mask2Bit)<<8)|int64(payload[2])) / 10,
 		LowbatReporting:        (payload[3] >> 7) == 1,
 		CommunicationReporting: (payload[3] >> 6) == 1,
 		WindowOpenReporting:    (payload[3] >> 5) == 1,
